@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_calculator">
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.cherry.cherri.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.cherry.cherri.ui.profile.ProfileDetailsFragment"
+        android:label="ProfileDetailsFragment"
+        tools:layout="@layout/fragment_profile_details">
+        <!-- Define the action to navigate here -->
+   <!--     <action
+            android:id="@+id/action_signInFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+
+        <action
+            android:id="@+id/action_signUpFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+-->
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_profileFragment"
+            app:destination="@id/navigation_profile" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_degree_details"
+        android:name="com.cherry.cherri.ui.dashboard.DegreeDetailsFragment"
+        android:label="Degree Details"
+        tools:layout="@layout/fragment_degree_details" />
+
+
+
+
+    <fragment
+        android:id="@+id/navigation_calculator"
+        android:name="com.cherry.cherri.ui.home.CalculatorFragment"
+        android:label="@string/title_calc"
+        tools:layout="@layout/fragment_calculator" />
+
+
+
+
+    <fragment
+        android:id="@+id/navigation_universitydegree"
+        android:name="com.cherry.cherri.ui.dashboard.UniversityDegreeFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_university_degree" >
+
+        <action android:id="@+id/action_universityDegreeFragment_to_profileFragment"
+            app:destination="@id/navigation_profile"></action>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.cherry.cherri.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+</navigation>

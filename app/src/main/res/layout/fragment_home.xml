@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="48dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp"
+        >
+
+
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="7"
+            android:layout_gravity="center">
+
+            <!-- Spinner and EditText for each subject -->
+            <Spinner
+                android:id="@+id/spinner_subject1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner_subject2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner_subject3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner_subject4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner_subject5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/spinner_subject6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editText_mark6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Calculate APS" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center">
+            <!-- Spinner and EditText for each subject -->
+            <TextView
+                android:id="@+id/nbt1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2"
+                android:text="NBT Academic Literacy (AL)"/>
+
+            <EditText
+                android:id="@+id/editnbt1"
+                android:layout_width="122dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/nbt2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2"
+                android:text="NBT Quantitative Literacy (QL)"/>
+
+            <EditText
+                android:id="@+id/editnbt2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/nbt3"
+                android:text="NBT Mathematics (MAT)"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="2" />
+
+            <EditText
+                android:id="@+id/editnbt3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:hint="Enter %"
+                android:inputType="number" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/apsScoreText"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="24sp"
+            android:textColor="@color/purple_700"
+            android:layout_centerInParent="true"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+</ScrollView>

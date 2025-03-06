@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/pink_border">
+
+    <TextView
+        android:id="@+id/degreeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:text="Bachelor of Science in CS"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/minimumAps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+    android:gravity="center"
+    android:textAlignment="center"
+        android:text="Minimum APS Score: 32"/>
+
+    <TextView
+        android:id="@+id/subjectRequirements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Mathematics: 4, English: 4"
+        android:textStyle="bold"/>
+
+    <!-- Accordion container for details (initially hidden) -->
+    <Button
+        android:id="@+id/viewDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/mainPink"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="VIEW DETAILS"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/detailsAccordion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details about the degree..."
+            android:textSize="14sp"/>
+
+        <!-- Add more details if needed -->
+
+    </LinearLayout>
+
+</LinearLayout>

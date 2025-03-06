@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "592565238356",
+    "project_id": "cherry-2a2de",
+    "storage_bucket": "cherry-2a2de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592565238356:android:56b39ad1ab2942efeb8bc1",
+        "android_client_info": {
+          "package_name": "com.cherry.cherri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2GGpHZoz17Z8tbXuqbJkE0DFrCBlTMXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592565238356:android:aedacdc58c3c82f3eb8bc1",
+        "android_client_info": {
+          "package_name": "com.example.cherri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2GGpHZoz17Z8tbXuqbJkE0DFrCBlTMXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592565238356:android:f04aef938d86620deb8bc1",
+        "android_client_info": {
+          "package_name": "com.example.cherry"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2GGpHZoz17Z8tbXuqbJkE0DFrCBlTMXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

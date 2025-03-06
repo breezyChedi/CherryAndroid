@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Cherri</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Explore</string>
+    <string name="title_notifications">Info</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_calc">APS Calculator</string>
+    <string name="select_gender" />
+    <string name="select_nationality" />
+</resources>

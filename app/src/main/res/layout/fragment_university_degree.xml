@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="2dp"
+    android:paddingBottom="16dp">
+
+    <!-- Filter Eligibility Checkbox -->
+    <CheckBox
+        android:id="@+id/filterCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter by Eligibility"/>
+
+    <!-- Horizontal RecyclerView for University Cards -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/universityRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:overScrollMode="always"/>
+
+    <!-- Spinner for Selecting Faculties -->
+    <Spinner
+        android:id="@+id/facultySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:spinnerMode="dropdown"/>
+
+    <!-- Grid RecyclerView for Degree Cards -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/degreeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>
