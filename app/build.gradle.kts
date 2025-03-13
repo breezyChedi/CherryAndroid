@@ -12,8 +12,8 @@ android {
         applicationId = "com.cherry.cherri"
         minSdk = 24
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.4"
+        versionCode = 6
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.media3.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,6 +66,10 @@ dependencies {
     implementation(libs.neo4j.driver)
     implementation(libs.androidx.constraintlayout) // ConstraintLayout
     implementation(libs.cardview)
+
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 // Add CardView
 
 }

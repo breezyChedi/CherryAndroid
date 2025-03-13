@@ -2,13 +2,15 @@ package com.cherry.cherri.data
 
 import android.util.Log
 import com.cherry.cherri.BuildConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.neo4j.driver.*
 
 val neo4jUrl = BuildConfig.NEO4J_URI
 val neo4jUsername = BuildConfig.NEO4J_USERNAME
 val neo4jPassword = BuildConfig.NEO4J_PASSWORD
 
-
+/*
 fun getUniversitiesWithFaculties(): List<UniversityWithFaculties> {
     val driver: Driver = GraphDatabase.driver(neo4jUrl, AuthTokens.basic(neo4jUsername, neo4jPassword))
     val session: Session = driver.session()
@@ -54,6 +56,61 @@ fun getUniversitiesWithFaculties(): List<UniversityWithFaculties> {
     }
 
 }
+
+ */
+
+
+private var cachedUniversities: List<UniversityWithFaculties>? = null
+
+suspend fun getUniversitiesWithFaculties(): List<UniversityWithFaculties> = withContext(Dispatchers.IO) {
+    // Use the class-level cache
+    cachedUniversities?.let { return@withContext it }
+
+    val driver: Driver = GraphDatabase.driver(neo4jUrl, AuthTokens.basic(neo4jUsername, neo4jPassword))
+
+    try {
+        driver.session().use { session ->
+            val result = session.run(
+                """
+                MATCH (u:University)-[:HAS_FACULTY]->(f:Faculty)
+                WITH u, collect(f) AS faculties
+                ORDER BY u.ranking
+                RETURN u, faculties
+                """
+            )
+
+            val universities = result.list().map { record ->
+                val universityNode = record.get("u").asNode()
+                val facultiesNodes = record.get("faculties").asList { it.asNode() }
+
+                // Map faculties efficiently
+                val faculties = facultiesNodes.map { facultyNode ->
+                    Faculty(
+                        id = facultyNode.id(),
+                        name = facultyNode.get("name").asString()
+                    )
+                }
+
+                UniversityWithFaculties(
+                    id = universityNode.id(),
+                    name = universityNode.get("name").asString(),
+                    location = universityNode.get("location").asString(),
+                    logoUrl = universityNode.get("logoUrl").asString(),
+                    appUrl = universityNode.get("appUrl").asString(),
+                    faculties = faculties
+                )
+            }
+
+            // Cache the results
+            cachedUniversities = universities
+            universities
+        }
+    } catch (e: Exception) {
+        Log.e("UniversityRepository", "Error fetching universities", e)
+        emptyList()
+    }
+}
+
 
 fun getDegreesForFaculty(facultyId: Long): List<Degree> {
     val driver: Driver = GraphDatabase.driver(neo4jUrl, AuthTokens.basic(neo4jUsername, neo4jPassword))

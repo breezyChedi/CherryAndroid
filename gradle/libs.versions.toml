@@ -18,6 +18,10 @@ firebase-firestore = "24.8.0"
 google-services = "4.3.15"
 neo4j-driver = "4.4.11"
 
+coroutines = "1.7.3"
+lifecycle-runtime = "2.6.2"
+media3CommonKtx = "1.5.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -32,10 +36,15 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutines" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime" }
+
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version = "22.1.2" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore" }
 neo4j-driver = { module = "org.neo4j.driver:neo4j-java-driver", version.ref = "neo4j-driver" }
 cardview = { group = "androidx.cardview", name = "cardview", version = "1.0.0" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
 
 
 

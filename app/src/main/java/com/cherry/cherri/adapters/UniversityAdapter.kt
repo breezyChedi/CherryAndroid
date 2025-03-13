@@ -1,5 +1,6 @@
 package com.cherry.cherri.adapters
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -8,11 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cherry.cherri.R
 import com.cherry.cherri.data.UniversityWithFaculties
+import com.cherry.cherri.databinding.ItemUniversityCardBinding
+
 
 val logoMap = mapOf(
     "/logos/cput_logo.png" to R.drawable.cput_logo,
@@ -44,7 +48,7 @@ val logoMap = mapOf(
 
 )
 
-
+/*
 class UniversityAdapter : ListAdapter<UniversityWithFaculties, UniversityAdapter.UniversityViewHolder>(DIFF_CALLBACK) {
 
     // Interface to handle university click events
@@ -116,4 +120,87 @@ class UniversityAdapter : ListAdapter<UniversityWithFaculties, UniversityAdapter
         holder.bind(getItem(position), selectedPosition == position)
     }
 }
+*/
+
+class UniversityAdapter : ListAdapter<UniversityWithFaculties, UniversityAdapter.UniversityViewHolder>(DIFF_CALLBACK) {
+
+    private var onUniversityClickListener: ((UniversityWithFaculties) -> Unit)? = null
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
+
+    companion object {
+        private const val PAYLOAD_SELECTION = "PAYLOAD_SELECTION"
+
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<UniversityWithFaculties>() {
+            override fun areItemsTheSame(oldItem: UniversityWithFaculties, newItem: UniversityWithFaculties) =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: UniversityWithFaculties, newItem: UniversityWithFaculties) =
+                oldItem == newItem
+        }
+    }
+
+    // Add the missing onCreateViewHolder implementation
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversityViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_university_card, parent, false)
+        return UniversityViewHolder(view)
+    }
+
+    inner class UniversityViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val logo: ImageView = view.findViewById(R.id.universityLogo)
+        private val name: TextView = view.findViewById(R.id.universityName)
+        private val appBut: Button = view.findViewById(R.id.applicationButton)
+
+        fun bind(university: UniversityWithFaculties, isSelected: Boolean) {
+            val logoUrl = university.logoUrl
+            val resourceId = logoMap[logoUrl] ?: R.drawable.uct_logo
+
+            logo.setImageResource(resourceId)
+            name.text = university.name
+            appBut.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(university.appUrl)
+                }
+                it.context.startActivity(intent)
+            }
+
+            updateSelectionState(isSelected)
+
+            itemView.setOnClickListener {
+                onUniversityClickListener?.invoke(university)
+                val previousPosition = selectedPosition
+                // Fix: Use absoluteAdapterPosition instead of bindingAdapterPosition
+                selectedPosition = adapterPosition
+                notifyItemChanged(previousPosition, PAYLOAD_SELECTION)
+                notifyItemChanged(selectedPosition, PAYLOAD_SELECTION)
+            }
+        }
+
+        private fun updateSelectionState(isSelected: Boolean) {
+            itemView.scaleX = if (isSelected) 1.1f else 1.0f
+            itemView.scaleY = if (isSelected) 1.1f else 1.0f
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: UniversityViewHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
+        if (payloads.isNotEmpty() && payloads[0] == PAYLOAD_SELECTION) {
+            holder.bind(getItem(position), selectedPosition == position)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
+    override fun onBindViewHolder(holder: UniversityViewHolder, position: Int) {
+        holder.bind(getItem(position), selectedPosition == position)
+    }
+
+    fun setOnUniversityClickListener(listener: (UniversityWithFaculties) -> Unit) {
+        onUniversityClickListener = listener
+    }
+}
+
 

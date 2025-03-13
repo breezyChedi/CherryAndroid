@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,10 @@ import com.cherry.cherri.ui.profile.Profile
 import com.cherry.cherri.util.filterDegreesByEligibility
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class UniversityDegreeFragment : Fragment() {
 
@@ -71,7 +76,7 @@ class UniversityDegreeFragment : Fragment() {
 
         return view
     }
-
+/*
     private fun updateDegreesBasedOnSelection(faculty: Faculty, isFilterChecked: Boolean) {
         if (isFilterChecked) {
             val user = FirebaseAuth.getInstance().currentUser
@@ -121,7 +126,99 @@ class UniversityDegreeFragment : Fragment() {
             degreeAdapter.notifyDataSetChanged()
         }
     }
+*/
 
+    // Add these at class level
+    private var cachedDegrees: Map<Long, List<Degree>> = mutableMapOf()
+    private var cachedUserProfile: Profile? = null
+
+    private fun updateDegreesBasedOnSelection(faculty: Faculty, isFilterChecked: Boolean) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                if (isFilterChecked) {
+                    if (!FirebaseConfig.isUserAuthenticated()) {
+                        withContext(Dispatchers.Main) {
+                            filterCheckbox.isChecked = false
+                            Toast.makeText(requireContext(), "Please sign in to use filtering", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
+
+                    val userId = FirebaseConfig.getCurrentUserId() ?: run {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "User ID not found", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
+
+                    // Use cached profile if available, otherwise fetch from Firestore
+                    val userProfile = cachedUserProfile ?: withContext(Dispatchers.IO) {
+                        try {
+                            val document = FirebaseFirestore.getInstance()
+                                .collection("profiles")
+                                .document(userId)
+                                .get()
+                                .await()
+
+                            document.toObject(Profile::class.java)?.also {
+                                cachedUserProfile = it // Cache the profile
+                            }
+                        } catch (e: Exception) {
+                            Log.e("ProfileFetch", "Error fetching profile", e)
+                            null
+                        }
+                    }
+
+                    if (userProfile == null) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Profile data is invalid", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
+
+                    // Get degrees from cache or fetch them
+                    val facultyDegrees = withContext(Dispatchers.IO) {
+                        cachedDegrees[faculty.id] ?: getDegreesForFaculty(faculty.id).also {
+                            cachedDegrees = cachedDegrees + (faculty.id to it)
+                        }
+                    }
+
+                    val filteredDegrees = withContext(Dispatchers.Default) {
+                        filterDegreesByEligibility(facultyDegrees, userProfile, faculty.name)
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        degrees.clear()
+                        degrees.addAll(filteredDegrees)
+                        degreeAdapter.notifyDataSetChanged()
+                    }
+
+                } else {
+                    // Handle unchecked filter case
+                    withContext(Dispatchers.IO) {
+                        val unfiltereDegrees = cachedDegrees[faculty.id] ?: getDegreesForFaculty(faculty.id).also {
+                            cachedDegrees = cachedDegrees + (faculty.id to it)
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            degrees.clear()
+                            degrees.addAll(unfiltereDegrees)
+                            degreeAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("UpdateDegrees", "Error updating degrees", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error updating degrees: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 
 
     private fun setupFilterCheckbox() {
@@ -192,11 +289,26 @@ class UniversityDegreeFragment : Fragment() {
         degreeRecyclerView.adapter = degreeAdapter
     }
 
-
+/*
     private fun loadUniversities() {
         // Fetch universities and their faculties using getUniversitiesWithFaculties function
         val universities = getUniversitiesWithFaculties() // This is the function you previously defined
         universityAdapter.submitList(universities)
+    }*/
+
+    private fun loadUniversities() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val universities = getUniversitiesWithFaculties()
+                universityAdapter.submitList(universities)
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "Error loading universities",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun setupFacultySpinner() {
